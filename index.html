@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>DALAMA</title>
+</head>
+<body>
+
+<h2>Nhập thông tin khách hàng</h2>
+
+<input id="name" placeholder="Tên"><br><br>
+<input id="phone" placeholder="Số điện thoại"><br><br>
+<input id="product" placeholder="Sản phẩm"><br><br>
+
+<button onclick="start()">Lưu thông tin</button>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, addDoc, collection } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "API_KEY",
+  authDomain: "PROJECT.firebaseapp.com",
+  projectId: "PROJECT_ID"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+window.saveCustomer = async function(name, phone, product) {
+  await addDoc(collection(db, "customers"), {
+    name: name,
+    phone: phone,
+    product: product,
+    time: new Date()
+  });
+
+  alert("Đã lưu thông tin!");
+}
+
+window.start = function() {
+  const name = document.getElementById("name").value;
+  const phone = document.getElementById("phone").value;
+  const product = document.getElementById("product").value;
+
+  saveCustomer(name, phone, product);
+}
+</script>
+
+</body>
+</html>
